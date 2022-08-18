@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=neon">
+    <link rel="stylesheet" href="exitpage.css">
+</head>
+<body>
+    <div id="exit">
+        <p class="font-effect-neon"></p>
+        <p class="font-effect-neon"></p>
+    </div>
+
+    <script>
+        var locstring = location.href;
+        var score = gettingscore(locstring);
+        var score = gettingscore(locstring);
+        var dom = document.getElementsByClassName("font-effect-neon");
+        dom[0].innerHTML = "You lost";
+        dom[1].innerHTML = "Score = "+score;
+        
+
+        function gettingscore(s){
+            let index;
+            let i;
+            for(i = s.length; i>=0; i--){
+                if(s.charAt(i)=="="){
+                    index = i+1;
+                }
+            }
+            let actual = s.slice(index,s.length);
+            return actual;
+        }
+    </script>
+</body>
+</html>

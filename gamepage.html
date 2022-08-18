@@ -1,0 +1,148 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="gamepage.css">
+
+    <title>Document</title>
+</head>
+<body onload="start()">
+
+   
+
+
+
+    <script>
+        var myfruits = [];
+        var interval = 1000;
+        var score = 0;
+        var ndropped = 0;
+        var locstring = location.href;
+        var playername = gettingplayername(locstring);
+        var clickx = undefined;
+        var clicky = undefined;
+        var inc = 1;
+        function start(){
+            gameArea.begin();
+        }
+
+        window.addEventListener("resize",function(){
+            gameArea.render();
+        })
+
+        gameArea = {
+            canvas: document.createElement("canvas"),
+            
+            begin: function(){
+                this.context = this.canvas.getContext("2d");
+                gameArea.context.fillRect(0,0,gameArea.context.width,gameArea.context.height);
+                this.canvas.width = document.documentElement.clientWidth;
+                this.canvas.height = document.documentElement.clientHeight;
+                document.body.insertBefore(this.canvas,document.body.childNodes[0]);
+                setInterval(createfallingfruits,interval);
+                window.requestAnimationFrame(update);
+                setInterval(movefruits,1);
+
+
+            },
+            render: function(){
+                gameArea.context.fillRect(0,0,gameArea.context.width,gameArea.context.height);
+                this.canvas.width = document.documentElement.clientWidth;
+                this.canvas.height = document.documentElement.clientHeight;
+            }
+        }
+
+        function createfallingfruits(){
+            let posx = Math.floor(Math.random()*(document.documentElement.clientWidth-500))+80;
+            let imgno = Math.floor(Math.random()*6)+1;
+            myfruits.push(new createfruits(document.documentElement.clientWidth*0.07,posx,0,imgno,"yes"));
+        }
+
+        async function checkclick(){
+            if(clickx!=undefined && clicky!=undefined){
+                for(let i = 0; i<myfruits.length; i++){
+                    if(myfruits[i].x-myfruits[i].r<clickx && myfruits[i].x+myfruits[i].r>clickx && myfruits[i].y-myfruits[i].r<clicky && myfruits[i].y+myfruits[i].r>clicky){
+                        myfruits.splice(i,1);
+                        
+                        
+
+                        
+                        score+=500;
+                        
+                clickx = undefined;
+            clicky = undefined;
+                        break;
+
+                    }
+                    
+                }
+            }
+            
+        }
+
+        function gettingplayername(s){
+            let index;
+            let i;
+            for(i = s.length; i>=0; i--){
+                if(s.charAt(i)=="="){
+                    index = i+1;
+                }
+            }
+            let actual = s.slice(index,s.length);
+            return actual;
+        }
+
+        function update(){
+            
+            gameArea.context.clearRect(0,0,gameArea.canvas.width,gameArea.canvas.height)
+            for(let i = 0; i<myfruits.length; i++){
+                myfruits[i] = new createfruits(myfruits[i].r,myfruits[i].x,myfruits[i].y,myfruits[i].imgno,myfruits[i].inc);
+            }
+
+        }
+
+        function createfruits(r,x,y,imgno,inc){
+            this.x = x;
+            this.y = y;
+            this.r = r;
+            this.inc = inc;
+            this.imgno = imgno
+            let img = new Image();
+            img.src = imgno + ".png"
+            gameArea.context.drawImage(img,x,y,r,r);
+
+        }
+
+        document.addEventListener("click",(e) => {
+            const { clientX, clientY} = e;
+            console.log(clientX+" "+clientY);
+            clickx = clientX;
+            clicky = clientY;
+        })
+
+        function movefruits(){
+            for(let i = 0; i<myfruits.length; i++){
+                let y = myfruits[i].y;
+                if(myfruits[i].inc == "yes"){
+                y++;}
+                
+                myfruits[i] = new createfruits(myfruits[i].r,myfruits[i].x,y,myfruits[i].imgno,myfruits[i].inc)
+                update();
+                if(y>=document.documentElement.clientHeight){
+                    myfruits.splice(i,1);
+                    ndropped++;
+                }
+                if(ndropped>5){
+                    var newpage = "exitpage.html?score="+score;
+                    location.href = newpage;
+                }
+            }
+            checkclick();
+        }
+
+        
+    </script>
+    
+</body>
+</html>

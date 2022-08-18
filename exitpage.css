@@ -1,0 +1,11 @@
+html{
+    background-image: url("background4.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#exit{
+    font-family: "Sofia";
+    font-size: 7vmin;
+    text-align: center;
+    margin-top:15%;
+}

@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=fire">
+    <link rel="stylesheet" href="intropage.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="overall">
+    <p class="font-effect-fire">Fruit Ninja</p>
+    <input type="text" id="username" name="username" placeholder="Enter your name"><br>
+    <button id="play">Play</button>
+    </div>
+
+    <script>
+        document.getElementById("play").addEventListener("click",function(e){
+            e.preventDefault();
+            name = document.getElementById("username").value;
+            newpage = "gamepage.html?player="+name;
+            location.href = newpage;
+        })
+        document.getElementById("play").addEventListener("mousedown",animation);
+        function animation(){
+            document.getElementById("play").style.transform = "translateY(10px)";
+        }
+    </script>
+    
+
+
+
+
+
+</body>
+</html>
